@@ -18,6 +18,12 @@ public class ThreadFiles implements Runnable {
         path = str;
     }
 
+    private boolean isOSWindows() {
+        return System.getProperty("os.name").startsWith("Windows");
+    }
+
+    private String getCcccCommand() { return isOSWindows() ? "cccc" : "./cccc"; };
+
     private void listfiles(String dn) {
         File directory = new File(dn);
         //get all the files from a directory
@@ -32,7 +38,7 @@ public class ThreadFiles implements Runnable {
     //                		System.out.println(name);
                             Store.hash.put(name, new ClassFile(name)); //Put file in hash map.
                             try {
-                                String[] cmd = {"cccc", file.getAbsolutePath()};
+                                String[] cmd = {getCcccCommand(), file.getAbsolutePath()};
                                 Process p;
                                 p = Runtime.getRuntime().exec(cmd);
                                 // Any Error?
