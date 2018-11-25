@@ -120,14 +120,16 @@ public class ThreadMod implements Runnable {
 
                 String filename = entrystring.substring(entrystring.indexOf("b/") + 2,
                         entrystring.indexOf("\n"));
-                filename = filename.replace('/', '\\');
                 if (filename.contains(".c") // Code files
                         || filename.contains(".cpp")
                         || filename.contains(".h")
                         || filename.contains(".cc")
                         || filename.contains(".java")) {
                     String patch = entrystring.substring(entrystring.indexOf("@@"));
-                    parsePatch(filename, patch);
+                    if (!Store.hash.containsKey(filename)) {
+						filename = filename.replace('/', '\\');
+					}
+					parsePatch(filename, patch);
                 }
 
                 Iterable<RevCommit> commits = git.log().addRange(oldcommit, newcommit).call();

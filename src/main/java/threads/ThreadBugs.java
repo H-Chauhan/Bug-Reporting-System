@@ -50,7 +50,9 @@ public class ThreadBugs implements Runnable {
                 baos.reset();
                 String filename = entrystring.substring(entrystring.indexOf("b/") + 2,
                         entrystring.indexOf("\n"));
-                filename = filename.replace('/', '\\');
+                if (!Store.hash.containsKey(filename)) {
+                    filename = filename.replace('/', '\\');
+                }
                 if (filename.contains(".java")) {
                     if (!Store.hash.containsKey(filename)) {
                         return;
